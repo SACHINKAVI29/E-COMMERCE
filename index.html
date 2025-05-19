@@ -7,44 +7,77 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom CSS for animations and effects */
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .cart-item-enter {
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.3s ease-out forwards;
+        }
+        
+        .animate-slideOutRight {
+            animation: slideOutRight 0.3s ease-out forwards;
+        }
+        
+        .animate-pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        .animate-bounce {
+            animation: bounce 0.5s infinite;
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .cart-item {
+            transition: all 0.3s ease;
             opacity: 0;
             transform: translateX(-20px);
         }
         
-        .cart-item-enter-active {
+        .cart-item.visible {
             opacity: 1;
             transform: translateX(0);
-            transition: all 300ms ease-out;
         }
         
-        .cart-item-exit {
-            opacity: 1;
-        }
-        
-        .cart-item-exit-active {
+        .cart-item.removing {
             opacity: 0;
             transform: translateX(20px);
-            transition: all 300ms ease-out;
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         
         /* Custom scrollbar for cart */
@@ -74,7 +107,7 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-4">
                     <a href="#" class="flex items-center">
-                        <i class="fas fa-bolt text-2xl text-indigo-600"></i>
+                        <i class="fas fa-bolt text-2xl text-indigo-600 animate-pulse"></i>
                         <span class="ml-2 text-xl font-bold text-gray-800">NexusShop</span>
                     </a>
                 </div>
@@ -88,17 +121,17 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <button class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none">
+                    <button class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none transition-transform hover:scale-110">
                         <i class="fas fa-search"></i>
                     </button>
-                    <button class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none">
+                    <button class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none transition-transform hover:scale-110">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <button id="cart-button" class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none relative">
+                    <button id="cart-button" class="p-2 text-gray-700 hover:text-indigo-600 focus:outline-none relative transition-transform hover:scale-110">
                         <i class="fas fa-shopping-cart"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-bounce">0</span>
                     </button>
-                    <button class="md:hidden p-2 text-gray-700 focus:outline-none" id="mobile-menu-button">
+                    <button class="md:hidden p-2 text-gray-700 focus:outline-none transition-transform hover:scale-110" id="mobile-menu-button">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -121,13 +154,13 @@
     <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="md:flex items-center justify-between">
-                <div class="md:w-1/2 mb-8 md:mb-0">
+                <div class="md:w-1/2 mb-8 md:mb-0 animate-fadeIn">
                     <h1 class="text-4xl md:text-5xl font-bold mb-4">Premium Products for Your Lifestyle</h1>
                     <p class="text-xl mb-6">Discover our curated collection of high-quality items at unbeatable prices.</p>
-                    <button class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition shadow-lg">Shop Now</button>
+                    <button class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition shadow-lg hover:scale-105 transform">Shop Now</button>
                 </div>
-                <div class="md:w-1/2 flex justify-center">
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1099&q=80" alt="Hero Image" class="rounded-lg shadow-2xl max-w-full h-auto">
+                <div class="md:w-1/2 flex justify-center animate-fadeIn" style="animation-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1099&q=80" alt="Hero Image" class="rounded-lg shadow-2xl max-w-full h-auto hover:scale-105 transition-transform duration-300">
                 </div>
             </div>
         </div>
@@ -136,9 +169,9 @@
     <!-- Categories -->
     <section class="py-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">Shop by Category</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 animate-fadeIn">Shop by Category</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 animate-fadeIn" style="animation-delay: 0.1s;">
                     <div class="h-40 bg-indigo-100 flex items-center justify-center">
                         <i class="fas fa-laptop text-5xl text-indigo-600"></i>
                     </div>
@@ -148,7 +181,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 animate-fadeIn" style="animation-delay: 0.2s;">
                     <div class="h-40 bg-blue-100 flex items-center justify-center">
                         <i class="fas fa-tshirt text-5xl text-blue-600"></i>
                     </div>
@@ -158,7 +191,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 animate-fadeIn" style="animation-delay: 0.3s;">
                     <div class="h-40 bg-green-100 flex items-center justify-center">
                         <i class="fas fa-home text-5xl text-green-600"></i>
                     </div>
@@ -168,7 +201,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 animate-fadeIn" style="animation-delay: 0.4s;">
                     <div class="h-40 bg-yellow-100 flex items-center justify-center">
                         <i class="fas fa-dumbbell text-5xl text-yellow-600"></i>
                     </div>
@@ -185,8 +218,8 @@
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Featured Products</h2>
-                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">View All</a>
+                <h2 class="text-3xl font-bold animate-fadeIn">Featured Products</h2>
+                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium transition-colors hover:underline">View All</a>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="products-container">
@@ -198,10 +231,10 @@
     <!-- Testimonials -->
     <section class="py-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 animate-fadeIn">What Our Customers Say</h2>
             
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform animate-fadeIn" style="animation-delay: 0.1s;">
                     <div class="flex items-center mb-4">
                         <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
                             <i class="fas fa-user text-indigo-600"></i>
@@ -220,7 +253,7 @@
                     <p class="text-gray-600">"The quality of products exceeded my expectations. Fast shipping and excellent customer service!"</p>
                 </div>
                 
-                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform animate-fadeIn" style="animation-delay: 0.2s;">
                     <div class="flex items-center mb-4">
                         <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
                             <i class="fas fa-user text-indigo-600"></i>
@@ -239,7 +272,7 @@
                     <p class="text-gray-600">"Great selection of products at competitive prices. Will definitely shop here again!"</p>
                 </div>
                 
-                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform animate-fadeIn" style="animation-delay: 0.3s;">
                     <div class="flex items-center mb-4">
                         <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
                             <i class="fas fa-user text-indigo-600"></i>
@@ -265,14 +298,14 @@
     <section class="py-12 bg-indigo-600 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="md:flex items-center justify-between">
-                <div class="md:w-1/2 mb-6 md:mb-0">
+                <div class="md:w-1/2 mb-6 md:mb-0 animate-fadeIn">
                     <h2 class="text-2xl font-bold mb-2">Subscribe to Our Newsletter</h2>
                     <p>Get the latest updates on new products and upcoming sales</p>
                 </div>
-                <div class="md:w-1/2">
+                <div class="md:w-1/2 animate-fadeIn" style="animation-delay: 0.2s;">
                     <form class="flex">
-                        <input type="email" placeholder="Your email address" class="px-4 py-3 w-full rounded-l-lg focus:outline-none text-gray-800">
-                        <button type="submit" class="bg-indigo-800 hover:bg-indigo-900 px-6 py-3 rounded-r-lg font-medium transition">Subscribe</button>
+                        <input type="email" placeholder="Your email address" class="px-4 py-3 w-full rounded-l-lg focus:outline-none text-gray-800 focus:ring-2 focus:ring-indigo-300">
+                        <button type="submit" class="bg-indigo-800 hover:bg-indigo-900 px-6 py-3 rounded-r-lg font-medium transition transform hover:scale-105">Subscribe</button>
                     </form>
                 </div>
             </div>
@@ -283,55 +316,55 @@
     <footer class="bg-gray-900 text-white pt-12 pb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
+                <div class="animate-fadeIn" style="animation-delay: 0.1s;">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
                         <i class="fas fa-bolt text-2xl text-indigo-400 mr-2"></i>
                         <span>NexusShop</span>
                     </h3>
                     <p class="text-gray-400 mb-4">Premium e-commerce platform offering the best products for your lifestyle.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 
-                <div>
+                <div class="animate-fadeIn" style="animation-delay: 0.2s;">
                     <h4 class="font-semibold text-lg mb-4">Shop</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Featured</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">New Arrivals</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sale Items</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Gift Cards</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">All Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Featured</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sale Items</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Gift Cards</a></li>
                     </ul>
                 </div>
                 
-                <div>
+                <div class="animate-fadeIn" style="animation-delay: 0.3s;">
                     <h4 class="font-semibold text-lg mb-4">Customer Service</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Track Order</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Returns & Refunds</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Track Order</a></li>
                     </ul>
                 </div>
                 
-                <div>
+                <div class="animate-fadeIn" style="animation-delay: 0.4s;">
                     <h4 class="font-semibold text-lg mb-4">About</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Our Story</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center animate-fadeIn">
                 <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 NexusShop. All rights reserved.</p>
                 <div class="flex space-x-6">
                     <img src="https://via.placeholder.com/40x25?text=Visa" alt="Visa" class="h-6">
@@ -348,7 +381,7 @@
         <div class="h-full flex flex-col">
             <div class="p-4 border-b flex justify-between items-center">
                 <h3 class="text-xl font-bold">Your Cart</h3>
-                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -370,10 +403,10 @@
                     <span class="font-medium">Shipping:</span>
                     <span class="font-medium">Calculated at checkout</span>
                 </div>
-                <button id="checkout-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-medium transition disabled:opacity-50" disabled>
+                <button id="checkout-button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-medium transition transform hover:scale-105 disabled:opacity-50" disabled>
                     Checkout
                 </button>
-                <p class="text-center text-sm text-gray-500 mt-2">or <a href="#" class="text-indigo-600 hover:text-indigo-800">Continue Shopping</a></p>
+                <p class="text-center text-sm text-gray-500 mt-2">or <a href="#" class="text-indigo-600 hover:text-indigo-800 transition-colors">Continue Shopping</a></p>
             </div>
         </div>
     </div>
@@ -383,27 +416,27 @@
     
     <!-- Quick View Modal -->
     <div id="quick-view-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-slideInRight">
             <div class="p-4 border-b flex justify-between items-center">
                 <h3 class="text-xl font-bold">Product Details</h3>
-                <button id="close-quick-view" class="text-gray-500 hover:text-gray-700">
+                <button id="close-quick-view" class="text-gray-500 hover:text-gray-700 transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="p-6 md:flex">
                 <div class="md:w-1/2 mb-6 md:mb-0">
-                    <img id="quick-view-image" src="" alt="Product" class="w-full rounded-lg">
+                    <img id="quick-view-image" src="" alt="Product" class="w-full rounded-lg hover:scale-105 transition-transform duration-300">
                     <div class="grid grid-cols-4 gap-2 mt-4">
-                        <div class="border rounded cursor-pointer">
+                        <div class="border rounded cursor-pointer hover:border-indigo-500 transition-colors">
                             <img src="" alt="Thumbnail" class="w-full h-20 object-cover">
                         </div>
-                        <div class="border rounded cursor-pointer">
+                        <div class="border rounded cursor-pointer hover:border-indigo-500 transition-colors">
                             <img src="" alt="Thumbnail" class="w-full h-20 object-cover">
                         </div>
-                        <div class="border rounded cursor-pointer">
+                        <div class="border rounded cursor-pointer hover:border-indigo-500 transition-colors">
                             <img src="" alt="Thumbnail" class="w-full h-20 object-cover">
                         </div>
-                        <div class="border rounded cursor-pointer">
+                        <div class="border rounded cursor-pointer hover:border-indigo-500 transition-colors">
                             <img src="" alt="Thumbnail" class="w-full h-20 object-cover">
                         </div>
                     </div>
@@ -426,29 +459,29 @@
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Color</h4>
                         <div class="flex space-x-2">
-                            <button class="w-8 h-8 rounded-full bg-black border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"></button>
-                            <button class="w-8 h-8 rounded-full bg-gray-400 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"></button>
-                            <button class="w-8 h-8 rounded-full bg-blue-500 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"></button>
+                            <button class="w-8 h-8 rounded-full bg-black border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-110"></button>
+                            <button class="w-8 h-8 rounded-full bg-gray-400 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-110"></button>
+                            <button class="w-8 h-8 rounded-full bg-blue-500 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-110"></button>
                         </div>
                     </div>
                     
                     <div class="mb-6">
                         <h4 class="font-medium mb-2">Size</h4>
                         <div class="flex flex-wrap gap-2">
-                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">S</button>
-                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">M</button>
-                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">L</button>
-                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">XL</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-105">S</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-105">M</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-105">L</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-transform hover:scale-105">XL</button>
                         </div>
                     </div>
                     
                     <div class="flex items-center mb-8">
                         <div class="flex items-center border rounded">
-                            <button class="px-3 py-1 text-xl focus:outline-none">-</button>
+                            <button class="quantity-decrease px-3 py-1 text-xl focus:outline-none hover:bg-gray-100 transition-colors">-</button>
                             <span class="px-4">1</span>
-                            <button class="px-3 py-1 text-xl focus:outline-none">+</button>
+                            <button class="quantity-increase px-3 py-1 text-xl focus:outline-none hover:bg-gray-100 transition-colors">+</button>
                         </div>
-                        <button id="add-to-cart-quick" class="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded font-medium transition">
+                        <button id="add-to-cart-quick" class="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded font-medium transition transform hover:scale-105">
                             Add to Cart
                         </button>
                     </div>
@@ -488,7 +521,13 @@
                 image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
                 description: "Premium noise-cancelling wireless headphones with 30-hour battery life.",
                 rating: 4.5,
-                reviews: 24
+                reviews: 24,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
+                    "https://images.unsplash.com/photo-1590658006821-04f4008d5717?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
+                    "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
+                ]
             },
             {
                 id: 2,
@@ -497,7 +536,13 @@
                 image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1099&q=80",
                 description: "Track your fitness, receive notifications, and control your music with this advanced smartwatch.",
                 rating: 4.8,
-                reviews: 36
+                reviews: 36,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1099&q=80",
+                    "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80",
+                    "https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1138&q=80",
+                    "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80"
+                ]
             },
             {
                 id: 3,
@@ -506,7 +551,13 @@
                 image: "https://images.unsplash.com/photo-1461151304267-38535e780c79?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1133&q=80",
                 description: "55-inch Ultra HD Smart TV with HDR and built-in streaming apps.",
                 rating: 4.7,
-                reviews: 42
+                reviews: 42,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1461151304267-38535e780c79?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1133&q=80",
+                    "https://images.unsplash.com/photo-1558386568-6f6a394569c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1558002038-1055820ba03c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1558386568-6f6a394569c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                ]
             },
             {
                 id: 4,
@@ -515,7 +566,13 @@
                 image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1138&q=80",
                 description: "24.2MP DSLR camera with 1080p Full HD video and 3-inch LCD screen.",
                 rating: 4.9,
-                reviews: 58
+                reviews: 58,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1138&q=80",
+                    "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1132&q=80",
+                    "https://images.unsplash.com/photo-1519638831568-d9897f54ed35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1132&q=80"
+                ]
             },
             {
                 id: 5,
@@ -524,7 +581,13 @@
                 image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80",
                 description: "Fast wireless charging pad compatible with all Qi-enabled devices.",
                 rating: 4.3,
-                reviews: 19
+                reviews: 19,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80"
+                ]
             },
             {
                 id: 6,
@@ -533,7 +596,13 @@
                 image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
                 description: "Portable waterproof Bluetooth speaker with 20-hour playtime.",
                 rating: 4.6,
-                reviews: 31
+                reviews: 31,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                ]
             },
             {
                 id: 7,
@@ -542,7 +611,13 @@
                 image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
                 description: "High-performance gaming laptop with RTX graphics and 144Hz display.",
                 rating: 4.8,
-                reviews: 47
+                reviews: 47,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
+                    "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
+                    "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
+                    "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
+                ]
             },
             {
                 id: 8,
@@ -551,7 +626,13 @@
                 image: "https://images.unsplash.com/photo-1576243345690-4a4d7a6f7e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
                 description: "Track your steps, heart rate, sleep and more with this advanced fitness tracker.",
                 rating: 4.4,
-                reviews: 28
+                reviews: 28,
+                thumbnails: [
+                    "https://images.unsplash.com/photo-1576243345690-4a4d7a6f7e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1576243345690-4a4d7a6f7e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1576243345690-4a4d7a6f7e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    "https://images.unsplash.com/photo-1576243345690-4a4d7a6f7e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                ]
             }
         ];
         
@@ -583,13 +664,14 @@
         // Current product for quick view
         let currentQuickViewProduct = null;
         
-        // Render products
+        // Render products with staggered animations
         function renderProducts() {
             productsContainer.innerHTML = '';
             
-            products.forEach(product => {
+            products.forEach((product, index) => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer';
+                productCard.style.animationDelay = `${index * 0.1}s`;
                 productCard.innerHTML = `
                     <div class="relative">
                         <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover">
@@ -605,10 +687,10 @@
                         </div>
                         <p class="text-xl font-bold text-indigo-600 mb-3">$${product.price.toFixed(2)}</p>
                         <div class="flex justify-between">
-                            <button class="quick-view-button bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded text-sm transition" data-id="${product.id}">
+                            <button class="quick-view-button bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded text-sm transition transform hover:scale-105" data-id="${product.id}">
                                 Quick View
                             </button>
-                            <button class="add-to-cart-button bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm transition" data-id="${product.id}">
+                            <button class="add-to-cart-button bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm transition transform hover:scale-105" data-id="${product.id}">
                                 Add to Cart
                             </button>
                         </div>
@@ -616,23 +698,36 @@
                 `;
                 
                 productsContainer.appendChild(productCard);
+                
+                // Make product card visible after a short delay for staggered effect
+                setTimeout(() => {
+                    productCard.classList.add('visible');
+                }, 100 + (index * 100));
             });
             
-            // Add event listeners to buttons
-            document.querySelectorAll('.quick-view-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = parseInt(e.target.getAttribute('data-id'));
-                    showQuickView(productId);
+            // Add event listeners to buttons after products are rendered
+            setTimeout(() => {
+                document.querySelectorAll('.quick-view-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productId = parseInt(e.target.getAttribute('data-id'));
+                        showQuickView(productId);
+                    });
                 });
-            });
-            
-            document.querySelectorAll('.add-to-cart-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = parseInt(e.target.getAttribute('data-id'));
-                    addToCart(productId);
-                    showSuccessToast();
+                
+                document.querySelectorAll('.add-to-cart-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productId = parseInt(e.target.getAttribute('data-id'));
+                        addToCart(productId);
+                        showSuccessToast();
+                        
+                        // Add pulse animation to cart button
+                        cartButton.classList.add('animate-pulse');
+                        setTimeout(() => {
+                            cartButton.classList.remove('animate-pulse');
+                        }, 1000);
+                    });
                 });
-            });
+            }, 500);
         }
         
         // Render stars based on rating
@@ -658,18 +753,18 @@
         }
         
         // Add to cart
-        function addToCart(productId) {
+        function addToCart(productId, quantity = 1) {
             const product = products.find(p => p.id === productId);
             
             if (product) {
                 const existingItem = cart.find(item => item.id === productId);
                 
                 if (existingItem) {
-                    existingItem.quantity += 1;
+                    existingItem.quantity += quantity;
                 } else {
                     cart.push({
                         ...product,
-                        quantity: 1
+                        quantity: quantity
                     });
                 }
                 
@@ -677,13 +772,13 @@
             }
         }
         
-        // Update cart UI
+        // Update cart UI with animations
         function updateCart() {
-            // Update cart count
+            // Update cart count with animation
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             cartCount.textContent = totalItems;
             
-            // Update cart items
+            // Update cart items with animations
             cartItemsContainer.innerHTML = '';
             
             if (cart.length === 0) {
@@ -693,9 +788,10 @@
                 emptyCartMessage.classList.add('hidden');
                 checkoutButton.disabled = false;
                 
-                cart.forEach(item => {
+                cart.forEach((item, index) => {
                     const cartItem = document.createElement('div');
                     cartItem.className = 'flex items-center py-4 border-b cart-item';
+                    cartItem.style.animationDelay = `${index * 0.1}s`;
                     cartItem.innerHTML = `
                         <div class="w-20 h-20 bg-gray-100 rounded flex-shrink-0">
                             <img src="${item.image}" alt="${item.title}" class="w-full h-full object-contain">
@@ -705,16 +801,21 @@
                             <p class="text-gray-600 text-sm">$${item.price.toFixed(2)}</p>
                         </div>
                         <div class="flex items-center">
-                            <button class="quantity-button decrease w-8 h-8 border rounded flex items-center justify-center" data-id="${item.id}">-</button>
+                            <button class="quantity-button decrease w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 transition-colors" data-id="${item.id}">-</button>
                             <span class="mx-2">${item.quantity}</span>
-                            <button class="quantity-button increase w-8 h-8 border rounded flex items-center justify-center" data-id="${item.id}">+</button>
+                            <button class="quantity-button increase w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100 transition-colors" data-id="${item.id}">+</button>
                         </div>
-                        <button class="remove-item ml-4 text-red-500 hover:text-red-700" data-id="${item.id}">
+                        <button class="remove-item ml-4 text-red-500 hover:text-red-700 transition-colors" data-id="${item.id}">
                             <i class="fas fa-trash"></i>
                         </button>
                     `;
                     
                     cartItemsContainer.appendChild(cartItem);
+                    
+                    // Make cart item visible after a short delay for staggered effect
+                    setTimeout(() => {
+                        cartItem.classList.add('visible');
+                    }, 100 + (index * 100));
                 });
                 
                 // Add event listeners to quantity buttons
@@ -745,7 +846,7 @@
             cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
         }
         
-        // Update cart item quantity
+        // Update cart item quantity with animation
         function updateCartItemQuantity(productId, change) {
             const itemIndex = cart.findIndex(item => item.id === productId);
             
@@ -753,20 +854,43 @@
                 cart[itemIndex].quantity += change;
                 
                 if (cart[itemIndex].quantity <= 0) {
-                    cart.splice(itemIndex, 1);
+                    // Animate removal
+                    const cartItem = document.querySelector(`.cart-item:nth-child(${itemIndex + 1})`);
+                    if (cartItem) {
+                        cartItem.classList.remove('visible');
+                        cartItem.classList.add('removing');
+                        
+                        setTimeout(() => {
+                            cart.splice(itemIndex, 1);
+                            updateCart();
+                        }, 300);
+                    }
+                } else {
+                    updateCart();
                 }
-                
-                updateCart();
             }
         }
         
-        // Remove from cart
+        // Remove from cart with animation
         function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCart();
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (itemIndex !== -1) {
+                // Animate removal
+                const cartItem = document.querySelector(`.cart-item:nth-child(${itemIndex + 1})`);
+                if (cartItem) {
+                    cartItem.classList.remove('visible');
+                    cartItem.classList.add('removing');
+                    
+                    setTimeout(() => {
+                        cart.splice(itemIndex, 1);
+                        updateCart();
+                    }, 300);
+                }
+            }
         }
         
-        // Show quick view modal
+        // Show quick view modal with animation
         function showQuickView(productId) {
             const product = products.find(p => p.id === productId);
             
@@ -778,18 +902,43 @@
                 quickViewPrice.textContent = `$${product.price.toFixed(2)}`;
                 quickViewDescription.textContent = product.description;
                 
+                // Set thumbnails
+                const thumbnails = document.querySelectorAll('#quick-view-modal .grid-cols-4 img');
+                if (product.thumbnails) {
+                    product.thumbnails.forEach((thumb, index) => {
+                        if (thumbnails[index]) {
+                            thumbnails[index].src = thumb;
+                            thumbnails[index].parentNode.addEventListener('click', () => {
+                                quickViewImage.src = thumb;
+                            });
+                        }
+                    });
+                }
+                
                 quickViewModal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
+                
+                // Reset quantity controls
+                const quantityDisplay = document.querySelector('#quick-view-modal .border.rounded span');
+                if (quantityDisplay) quantityDisplay.textContent = '1';
             }
         }
         
-        // Close quick view modal
+        // Close quick view modal with animation
         function closeQuickViewModal() {
-            quickViewModal.classList.add('hidden');
-            document.body.style.overflow = '';
+            const modalContent = document.querySelector('#quick-view-modal > div');
+            modalContent.classList.remove('animate-slideInRight');
+            modalContent.classList.add('animate-slideOutRight');
+            
+            setTimeout(() => {
+                quickViewModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                modalContent.classList.remove('animate-slideOutRight');
+                modalContent.classList.add('animate-slideInRight');
+            }, 300);
         }
         
-        // Show success toast
+        // Show success toast with animation
         function showSuccessToast() {
             successToast.classList.remove('translate-y-10', 'opacity-0');
             successToast.classList.add('translate-y-0', 'opacity-100');
@@ -828,16 +977,53 @@
         
         addToCartQuick.addEventListener('click', () => {
             if (currentQuickViewProduct) {
-                addToCart(currentQuickViewProduct.id);
+                const quantity = parseInt(document.querySelector('#quick-view-modal .border.rounded span').textContent);
+                addToCart(currentQuickViewProduct.id, quantity);
                 showSuccessToast();
                 closeQuickViewModal();
+            }
+        });
+        
+        // Quantity controls in quick view
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quantity-decrease')) {
+                const quantityDisplay = e.target.parentNode.querySelector('span');
+                let quantity = parseInt(quantityDisplay.textContent);
+                if (quantity > 1) {
+                    quantityDisplay.textContent = quantity - 1;
+                }
+            }
+            
+            if (e.target.classList.contains('quantity-increase')) {
+                const quantityDisplay = e.target.parentNode.querySelector('span');
+                let quantity = parseInt(quantityDisplay.textContent);
+                quantityDisplay.textContent = quantity + 1;
             }
         });
         
         mobileMenuButton.addEventListener('click', toggleMobileMenu);
         
         // Initialize
-        renderProducts();
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            
+            // Animate elements on scroll
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.animate-fadeIn');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.2;
+                    
+                    if (elementPosition < screenPosition) {
+                        element.classList.add('animate-fadeIn');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+        });
         
         // Close modals when clicking outside
         window.addEventListener('click', (e) => {
